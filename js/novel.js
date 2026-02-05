@@ -11,11 +11,15 @@
   let timer = null;
 
   async function loadTexts(){
+    // Resolve data path relative to the current document so it works
+    // when the HTML is served from root or from docs/.
+    const candidate = new URL('../data/texts.json', document.baseURI).href;
     try{
-      const res = await fetch('data/texts.json');
+      const res = await fetch(candidate);
       if (!res.ok) throw new Error('fetch failed');
       const j = await res.json();
       if (Array.isArray(j.texts) && j.texts.length > 0) texts = j.texts.map(String);
+      return;
     }catch(e){
       // fetch may fail when opening the HTML via file:// — attempt to read inline JSON in the page
       try{
@@ -28,7 +32,7 @@
       }catch(inner){
         console.warn('Could not parse inline texts JSON.', inner);
       }
-      console.warn('Could not load data/texts.json, using fallback text.', e);
+      console.warn('Could not load ../data/texts.json, using fallback text.', e);
     }
   }
 
