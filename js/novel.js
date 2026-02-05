@@ -18,15 +18,15 @@
       const res = await fetch(candidate);
       if (!res.ok) throw new Error('fetch failed');
       const j = await res.json();
-      if (Array.isArray(j.texts) && j.texts.length > 0) texts = j.texts.map(String);
+      if (Array.isArray(j.texts) && j.texts.length > 0) texts = j.texts;
       return;
     }catch(e){
       // fetch may fail when opening the HTML via file:// — attempt to read inline JSON in the page
       try{
         const script = document.getElementById('texts');
         if (script && script.textContent){
-          const j = JSON.parse(script.textContent);
-          if (Array.isArray(j.texts) && j.texts.length > 0) texts = j.texts.map(String);
+            const j = JSON.parse(script.textContent);
+            if (Array.isArray(j.texts) && j.texts.length > 0) texts = j.texts;
           return;
         }
       }catch(inner){
@@ -39,7 +39,38 @@
   function startTyping(index){
     clearTimer();
     currentIndex = index;
-    const fullText = texts[currentIndex] || '';
+    const entry = texts[currentIndex];
+
+    // handle command entries
+    if (entry && typeof entry === 'object'){
+      if (entry.cmd === 'bg'){
+        // Clear visible text immediately so previous line doesn't remain during transition
+        clearTimer();
+        removeCaret();
+        textEl.textContent = '';
+        changeBackground(entry.src, !!entry.transition).then(()=>{
+          // advance to next after changing background with a 2s delay
+          setTimeout(()=>{
+            if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
+          }, 2000);
+        });
+        return;
+      }
+      if (entry.cmd === 'wait'){
+        // show caret (or keep current text) and wait specified ms then advance
+        removeCaret();
+        timer = setTimeout(()=>{
+          timer = null;
+          if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
+        }, entry.ms || 1000);
+        return;
+      }
+      // unknown command -> skip
+      if (currentIndex + 1 < texts.length) { startTyping(currentIndex + 1); }
+      return;
+    }
+
+    const fullText = String(entry || '');
     chars = Array.from(fullText);
     idx = 0;
     textEl.textContent = '';
@@ -73,6 +104,17 @@
 
   function revealAll(){
     if (timer) { clearTimeout(timer); timer = null }
+    const entry = texts[currentIndex];
+    if (entry && typeof entry === 'object'){
+      // if currently waiting, skip to the next
+      if (entry.cmd === 'wait'){
+        if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
+        return;
+      }
+      // other command - just advance
+      if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
+      return;
+    }
     textEl.textContent = (texts[currentIndex] || '');
     addCaret();
   }
@@ -82,8 +124,19 @@
   }
 
   function advance(){
-    if (timer) { // currently typing -> reveal
+    const entry = texts[currentIndex];
+    if (timer) { // currently typing or waiting -> reveal/skip
       revealAll();
+      return;
+    }
+    // if current entry is a command, just advance
+    if (entry && typeof entry === 'object'){
+      if (entry.cmd === 'wait'){
+        // not waiting now (timer null) -> just start next
+        if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
+        return;
+      }
+      if (currentIndex + 1 < texts.length) startTyping(currentIndex + 1);
       return;
     }
     // move to next text if exists
@@ -93,6 +146,38 @@
       // finished all texts — keep last text displayed (could add callback)
       addCaret();
     }
+  }
+
+  function changeBackground(src, transition = true){
+    return new Promise((resolve)=>{
+      const url = new URL(src, document.baseURI).href;
+      const bg = document.querySelector('.bg');
+      if (!transition || !bg){
+        if (bg) bg.style.backgroundImage = `url("${url}")`;
+        resolve();
+        return;
+      }
+
+      const overlay = document.createElement('div');
+      overlay.className = 'bg-overlay';
+      overlay.style.backgroundImage = `url("${url}")`;
+      document.body.appendChild(overlay);
+      // force reflow then fade in
+      void overlay.offsetWidth;
+      overlay.style.opacity = '1';
+
+      let called = false;
+      const finish = ()=>{ if (called) return; called = true; setTimeout(()=>{
+        if (bg) bg.style.backgroundImage = `url("${url}")`;
+        // fade out overlay
+        overlay.style.opacity = '0';
+        setTimeout(()=>{ overlay.remove(); resolve(); }, 300);
+      }, 0); };
+
+      overlay.addEventListener('transitionend', finish);
+      // safety timeout
+      setTimeout(finish, 800);
+    });
   }
 
   // click to skip/type faster or advance
