@@ -4,7 +4,7 @@
     "やはり空き教室は最高だ。寝起きでも空気がうまい！\nしかし、こんなに勉強に適した環境があるのに、なぜ皆やらないんだろう？",
     "まあ、そんなことはどうでもいい！片づけをして、教室を出るとしよう。",
 
-    { "cmd": "bg", "src": "asset/images/room-front.jpeg", "transition": true },
+    { "cmd": "bg", "src": "asset/images/room-front.webp", "transition": true },
 
     "さて、片付けも終わったし、そろそろ帰るとするか。",
     "それにしても、外がずいぶん暗くなってきたな…今何時だろう？",

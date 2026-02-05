@@ -17,22 +17,22 @@
       <!-- Direction buttons for scene navigation -->
       <div id="directions" class="directions" aria-label="方向選択ボタン">
         <button id="dir-up" class="dir-btn dir-up" data-direction="up" aria-label="上">
-          <img src="asset/images/arrow.png" alt="">
+          <img src="asset/images/arrow.webp" alt="">
         </button>
         <button id="dir-left" class="dir-btn dir-left" data-direction="left" aria-label="左">
-          <img src="asset/images/arrow.png" alt="">
+          <img src="asset/images/arrow.webp" alt="">
         </button>
         <button id="dir-down" class="dir-btn dir-down" data-direction="down" aria-label="下">
-          <img src="asset/images/arrow.png" alt="">
+          <img src="asset/images/arrow.webp" alt="">
         </button>
         <button id="dir-right" class="dir-btn dir-right" data-direction="right" aria-label="右">
-          <img src="asset/images/arrow.png" alt="">
+          <img src="asset/images/arrow.webp" alt="">
         </button>
       </div>
 
       <!-- Search button to view full background image -->
       <button id="search-btn" class="search-btn" aria-label="背景を拡大表示">
-        <img src="asset/images/search.png" alt="">
+        <img src="asset/images/search.webp" alt="">
       </button>
 
       <!-- Skip button for text mode -->
@@ -49,7 +49,7 @@
 
       <!-- Message bubble button for scenes with first-visit text -->
       <button id="message-btn" class="message-btn" aria-label="セリフを表示">
-        <img src="asset/images/message.png" alt="">
+        <img src="asset/images/message.webp" alt="">
       </button>
     </main>
 
@@ -109,7 +109,7 @@
     "最近の日課は、教室に残って勉強しながら寝落ちをすることである。使用していない教室をこっそり使わせてもらっているのだ。",
     "今日もいつものごとく、勉強につかれてうとうとしていた。まさか、こんなことになるなんて…",
 
-    { "cmd": "bg", "src": "asset/images/room-front.jpeg", "transition": true },
+    { "cmd": "bg", "src": "asset/images/room-front.webp", "transition": true },
 
     { "cmd": "nextChapter", "chapter": "chapter1" }
   ]
@@ -124,7 +124,7 @@
     "やはり空き教室は最高だ。寝起きでも空気がうまい！\nしかし、こんなに勉強に適した環境があるのに、なぜ皆やらないんだろう？",
     "まあ、そんなことはどうでもいい！片づけをして、教室を出るとしよう。",
 
-    { "cmd": "bg", "src": "asset/images/room-front.jpeg", "transition": true },
+    { "cmd": "bg", "src": "asset/images/room-front.webp", "transition": true },
 
     "さて、片付けも終わったし、そろそろ帰るとするか。",
     "それにしても、外がずいぶん暗くなってきたな…今何時だろう？",
@@ -160,7 +160,7 @@
 {
   "scenes": {
     "room-front": {
-      "bg": "asset/images/room-front.jpeg",
+      "bg": "asset/images/room-front.webp",
       "directions": {
         "up": {
           "default": "room-tv",
@@ -175,7 +175,7 @@
       }
     },
     "room-front-on": {
-      "bg": "asset/images/room-front-on.jpg",
+      "bg": "asset/images/room-front-on.webp",
       "directions": {
         "up": {
           "default": "room-tv",
@@ -190,7 +190,7 @@
       }
     },
     "room-tv": {
-      "bg": "asset/images/room-tv.jpeg",
+      "bg": "asset/images/room-tv.webp",
       "directions": {
         "up": {
           "default": "tv-zoomin",
@@ -208,7 +208,7 @@
       }
     },
     "room-tv-on": {
-      "bg": "asset/images/room-tv-on.jpg",
+      "bg": "asset/images/room-tv-on.webp",
       "directions": {
         "up": {
           "default": "tv-zoomin",
@@ -226,7 +226,7 @@
       }
     },
     "pc-number": {
-      "bg": "asset/images/pc-number.jpg",
+      "bg": "asset/images/pc-number.webp",
       "firstVisitText": "教卓のなかに何か紙が入っている。この番号は一体なんだ？",
       "directions": {
         "right": {
@@ -236,7 +236,7 @@
       }
     },
     "display-zoomin": {
-      "bg": "asset/images/display-zoomin.jpg",
+      "bg": "asset/images/display-zoomin.webp",
       "firstVisitText": "とりあえず、PCを起動させよう。しかし、パスワードが分からないな。なにか周りに手掛かりがあればいいのだが…",
       "directions": {
         "left": {
@@ -246,7 +246,7 @@
       }
     },
     "display-zoomin-on": {
-      "bg": "asset/images/display-zoomin-on.jpg",
+      "bg": "asset/images/display-zoomin-on.webp",
       "firstVisitText": [
         "やったぞ！パスワードが合っていたようだ。",
         "ここに4ケタの数字を入力するのか？またかよ！\n待てよ、画面の端になにかメモ書きされているな。",
@@ -269,7 +269,7 @@
       }
     },
     "sdgs": {
-      "bg": "asset/images/sdgs.jpg",
+      "bg": "asset/images/sdgs.webp",
       "firstVisitText": "何の変哲もないSDGsのポスターだ。わが校はこれに取り組んでいるらしい。社会貢献は良いことなので、とても誇らしく思う。",
       "directions": {
         "left": {
@@ -279,7 +279,7 @@
       }
     },
     "tv-zoomin": {
-      "bg": "asset/images/tv-zoomin.jpeg",
+      "bg": "asset/images/tv-zoomin.webp",
       "firstVisitText": "この大きなモニターには、何も映っていない。",
       "directions": {
         "down": {
@@ -289,7 +289,7 @@
       }
     },
     "tv-zoomin-on": {
-      "bg": "asset/images/tv-zoomin-on.jpg",
+      "bg": "asset/images/tv-zoomin-on.webp",
       "directions": {
         "down": {
           "default": "room-tv",
@@ -298,13 +298,13 @@
       }
     },
     "window-curtain": {
-      "bg": "asset/images/window-curtain.jpg",
+      "bg": "asset/images/window-curtain.webp",
       "firstVisitText": "窓には厚いカーテンが引かれている。",
       "action": "curtain",
       "directions": {}
     },
     "window-hint": {
-      "bg": "asset/images/window-hint.jpg",
+      "bg": "asset/images/window-hint.webp",
       "firstVisitText": "窓に数字が書いてある…これはなにを意味しているのだろう？",
       "directions": {
         "down": {
@@ -314,7 +314,7 @@
       }
     },
     "door-close": {
-      "bg": "asset/images/door-close.jpg",
+      "bg": "asset/images/door-close.webp",
       "text": "ドアはしっかり閉ざされている。まだ脱出できない…",
       "directions": {
         "up": {
@@ -324,7 +324,7 @@
       }
     },
     "door-open": {
-      "bg": "asset/images/door-open.jpeg",
+      "bg": "asset/images/door-open.webp",
       "firstVisitText": [
         "なんと扉が開いた！ようやくここから脱出できる…",
         "いったい何だったんだ？もうこんなことはやめにしよう…",
@@ -338,7 +338,7 @@
       }
     },
     "escape": {
-      "bg": "asset/images/escape.png",
+      "bg": "asset/images/escape.webp",
       "directions": {}
     }
   },

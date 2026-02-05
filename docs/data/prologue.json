@@ -5,7 +5,7 @@
     "最近の日課は、教室に残って勉強しながら寝落ちをすることである。使用していない教室をこっそり使わせてもらっているのだ。",
     "今日もいつものごとく、勉強につかれてうとうとしていた。まさか、こんなことになるなんて…",
 
-    { "cmd": "bg", "src": "asset/images/room-front.jpeg", "transition": true },
+    { "cmd": "bg", "src": "asset/images/room-front.webp", "transition": true },
 
     { "cmd": "nextChapter", "chapter": "chapter1" }
   ]

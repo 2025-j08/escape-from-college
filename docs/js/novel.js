@@ -765,7 +765,7 @@
             // End game - Show victory screen with escape.png
             const backgroundEl = document.getElementById('background');
             if (backgroundEl) {
-              backgroundEl.style.backgroundImage = 'url(asset/images/escape.png)';
+              backgroundEl.style.backgroundImage = 'url(asset/images/escape.webp)';
               backgroundEl.style.backgroundColor = '';
             }
             
