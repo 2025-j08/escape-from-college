@@ -20,7 +20,7 @@ body{font-family:var(--font-stack);background:#000;color:var(--text-color);overf
 .stage{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center}
 .textbox{
   width:92%;max-width:1100px;margin:20px auto;padding:12px;border-radius:10px;background:var(--textbox-bg);border:1px solid var(--textbox-border);
-  box-shadow:0 8px 30px rgba(0,0,0,0.6);height:var(--textbox-height);display:flex;align-items:flex-start;overflow:hidden;flex-direction:column
+  box-shadow:0 8px 30px rgba(0,0,0,0.6);height:var(--textbox-height);display:none;align-items:flex-start;overflow:hidden;flex-direction:column
 }
 .text{margin:0;font-size:clamp(16px,2.4vw,22px);line-height:1.6;white-space:pre-wrap;align-self:flex-start}
 .caret{display:inline-block;width:8px;height:1em;background:var(--text-color);margin-left:6px;opacity:0;animation:blink 1s steps(1) infinite}
@@ -28,3 +28,181 @@ body{font-family:var(--font-stack);background:#000;color:var(--text-color);overf
 
 /* small responsive tweak */
 @media (max-width:480px){:root{--textbox-height:32vh} .textbox{padding:14px}}
+
+/* Direction buttons for scene navigation */
+.directions{
+  display:none; /* hidden by default, shown in scene mode */
+  z-index:10
+}
+.dir-btn{
+  position:fixed;width:clamp(50px, 7vmin, 80px);height:clamp(50px, 7vmin, 80px);border:none;background:rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;
+  opacity:1;transition:background 0.3s;
+  display:flex;align-items:center;justify-content:center;padding:0
+}
+.dir-btn:hover:not(:disabled){
+  background:rgba(255,255,255,0.25);box-shadow:0 0 15px rgba(255,255,255,0.15)
+}
+.dir-btn:disabled{
+  cursor:not-allowed;pointer-events:none;display:none
+}
+.dir-btn img{
+  width:clamp(24px, 3.4vmin, 39px);height:clamp(24px, 3.4vmin, 39px);display:block
+}
+
+/* Position each direction button */
+.dir-up{
+  top:60px;left:50%;transform:translateX(-50%);z-index:11
+}
+.dir-right{
+  top:50%;right:40px;transform:translateY(-50%);z-index:11
+}
+.dir-down{
+  bottom:40px;left:50%;transform:translateX(-50%);z-index:11
+}
+.dir-left{
+  top:50%;left:40px;transform:translateY(-50%);z-index:11
+}
+
+/* Arrow rotation */
+.dir-up img{transform:rotate(0deg)}
+.dir-right img{transform:rotate(90deg)}
+.dir-down img{transform:rotate(180deg)}
+.dir-left img{transform:rotate(270deg)}
+
+/* Search button for full background view */
+.search-btn{
+  position:fixed;bottom:20px;left:20px;width:clamp(70px, 10vmin, 120px);height:clamp(70px, 10vmin, 120px);border:none;background:rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;
+  opacity:1;transition:opacity 0.3s,background 0.3s;
+  display:none;align-items:center;justify-content:center;padding:0;z-index:11
+}
+.search-btn:hover:not(:disabled){
+  background:rgba(255,255,255,0.25);box-shadow:0 0 15px rgba(255,255,255,0.15)
+}
+.search-btn.active{
+  background:rgba(255,255,255,0.45);box-shadow:0 0 20px rgba(255,255,255,0.3)
+}
+.search-btn:disabled{
+  opacity:0.25;cursor:not-allowed;background:rgba(100,100,100,0.15);filter:grayscale(80%)
+}
+.search-btn img{
+  width:clamp(60px, 8.5vmin, 102px);height:clamp(60px, 8.5vmin, 102px);display:block
+}
+
+/* Skip button for text mode */
+.skip-btn{
+  position:fixed;top:20px;right:20px;padding:clamp(8px, 1.5vmin, 16px) clamp(16px, 3vmin, 32px);
+  border:2px solid rgba(255,255,255,0.4);background:rgba(0,0,0,0.5);border-radius:8px;cursor:pointer;
+  color:#fff;font-size:clamp(14px, 2vmin, 20px);font-weight:bold;
+  opacity:1;transition:opacity 0.3s,background 0.3s,border-color 0.3s;
+  display:none;z-index:11
+}
+.skip-btn:hover{
+  background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.6)
+}
+
+/* Curtain button for window-curtain scene */
+.curtain-btn{
+  position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
+  padding:clamp(20px, 3.5vmin, 36px) clamp(48px, 7vmin, 80px);
+  border:3px solid rgba(255,255,255,0.6);background:rgba(0,0,0,0.7);border-radius:12px;cursor:pointer;
+  color:#fff;font-size:clamp(24px, 4vmin, 40px);font-weight:bold;
+  opacity:1;transition:opacity 0.3s,background 0.3s,border-color 0.3s,transform 0.2s;
+  display:none;z-index:11
+}
+.curtain-btn:hover{
+  background:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.8);transform:translate(-50%, -50%) scale(1.05)
+}
+
+/* Password button for display-zoomin scene */
+.password-btn{
+  position:fixed;top:40%;left:50%;transform:translate(-50%, -50%);
+  padding:clamp(20px, 3.5vmin, 36px) clamp(48px, 7vmin, 80px);
+  border:3px solid rgba(255,255,255,0.6);background:rgba(0,0,0,0.7);border-radius:12px;cursor:pointer;
+  color:#fff;font-size:clamp(24px, 4vmin, 40px);font-weight:bold;
+  opacity:1;transition:opacity 0.3s,background 0.3s,border-color 0.3s,transform 0.2s;
+  display:none;z-index:11
+}
+.password-btn:hover{
+  background:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.8);transform:translate(-50%, -50%) scale(1.05)
+}
+
+/* Password modal */
+.password-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:100
+}
+.password-modal-content{
+  background:rgba(20,20,30,0.95);border:3px solid rgba(255,255,255,0.6);border-radius:16px;
+  padding:clamp(30px, 5vmin, 50px);max-width:90%;text-align:center
+}
+.password-modal-content h2{
+  margin:0 0 clamp(20px, 3vmin, 30px) 0;color:#fff;font-size:clamp(20px, 3.5vmin, 32px)
+}
+.password-input-container{
+  display:flex;gap:clamp(8px, 1.5vmin, 16px);justify-content:center;margin-bottom:clamp(15px, 2.5vmin, 25px)
+}
+.password-digit{
+  width:clamp(40px, 6vmin, 60px);height:clamp(50px, 7vmin, 70px);
+  font-size:clamp(24px, 4vmin, 36px);text-align:center;border:2px solid rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.1);color:#fff;border-radius:8px;outline:none
+}
+.password-digit:focus{
+  border-color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.2)
+}
+.password-error{
+  color:#ff6b6b;font-size:clamp(14px, 2.2vmin, 18px);min-height:clamp(20px, 3vmin, 24px);margin:0 0 clamp(15px, 2.5vmin, 20px) 0
+}
+.password-buttons{
+  display:flex;gap:clamp(12px, 2vmin, 20px);justify-content:center
+}
+.password-submit-btn,.password-cancel-btn{
+  padding:clamp(10px, 1.8vmin, 16px) clamp(24px, 4vmin, 40px);
+  border:2px solid rgba(255,255,255,0.5);border-radius:8px;cursor:pointer;
+  font-size:clamp(16px, 2.5vmin, 22px);font-weight:bold;transition:all 0.3s
+}
+.password-submit-btn{
+  background:rgba(100,200,100,0.3);color:#fff
+}
+.password-submit-btn:hover{
+  background:rgba(100,200,100,0.5);border-color:rgba(255,255,255,0.8)
+}
+.password-cancel-btn{
+  background:rgba(200,100,100,0.3);color:#fff
+}
+.password-cancel-btn:hover{
+  background:rgba(200,100,100,0.5);border-color:rgba(255,255,255,0.8)
+}
+
+/* Message bubble button for scenes with firstVisitText */
+.message-btn{
+  position:fixed;bottom:20px;right:20px;width:clamp(70px, 10vmin, 120px);height:clamp(70px, 10vmin, 120px);border:none;background:rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;
+  opacity:1;transition:background 0.3s,box-shadow 0.3s;
+  display:none;align-items:center;justify-content:center;padding:0;z-index:11
+}
+.message-btn.visible{
+  display:flex
+}
+.message-btn:hover:not(:disabled){
+  background:rgba(255,255,255,0.25);box-shadow:0 0 15px rgba(255,255,255,0.15)
+}
+.message-btn.active{
+  background:rgba(255,255,255,0.45);box-shadow:0 0 20px rgba(255,255,255,0.3)
+}
+.message-btn:disabled{
+  opacity:0.25;cursor:not-allowed;background:rgba(100,100,100,0.15);filter:grayscale(80%)
+}
+.message-btn img{
+  width:clamp(60px, 8.5vmin, 102px);height:clamp(60px, 8.5vmin, 102px);display:block
+}
+
+/* Message display modal */
+.message-modal{
+  position:fixed;inset:0;background:transparent;display:none;align-items:center;justify-content:flex-end;padding:40px;z-index:50
+}
+.message-modal-content{
+  background:rgba(20,20,30,0.95);border:3px solid rgba(255,255,255,0.6);border-radius:16px;
+  padding:clamp(20px, 3.5vmin, 40px);max-width:clamp(250px, 40vw, 600px);text-align:left
+}
+.message-text{
+  margin:0;font-size:clamp(16px, 2.4vw, 22px);line-height:1.6;color:#fff;white-space:pre-wrap
+}
+
