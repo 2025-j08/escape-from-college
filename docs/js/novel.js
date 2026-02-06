@@ -26,6 +26,7 @@
   const gGameState = {
     mode: 'text', // 'text' or 'scene'
     cleared: false, // PCギミッククリア状態
+    finalPasswordPassed: false, // 4ケタパスワード入力成功状態
     currentScene: null,
     sceneData: null,
     texts: [],
@@ -350,7 +351,12 @@
       }
       // Then check for default/cleared states
       if (directionData.default){
-        return gGameState.cleared ? (directionData.cleared || directionData.default) : directionData.default;
+        let resolvedScene = gGameState.cleared ? (directionData.cleared || directionData.default) : directionData.default;
+        // Lock door-open until final password is passed
+        if (resolvedScene === 'door-open' && !gGameState.finalPasswordPassed){
+          resolvedScene = 'door-close';
+        }
+        return resolvedScene;
       }
     }
     return null;
@@ -1042,11 +1048,12 @@
   if (finalPasswordSubmitBtn){
     finalPasswordSubmitBtn.addEventListener('click', async () => {
       const enteredPassword = Array.from(finalPasswordDigits).map(inp => inp.value).join('');
-      const correctPassword = '8753';
+      const correctPassword = '7653';
       
       if (enteredPassword === correctPassword) {
-        // Correct password - go to door-open scene
-        console.log('[DEBUG] Final password correct! Transitioning to door-open scene.');
+        // Correct password - unlock door-open
+        console.log('[DEBUG] Final password correct! Unlocking door-open scene.');
+        gGameState.finalPasswordPassed = true;
         if (finalPasswordModal) finalPasswordModal.style.display = 'none';
         if (finalPasswordBtn) finalPasswordBtn.style.display = 'none';
         // Hide search button and keep it hidden for this scene and beyond
@@ -1054,7 +1061,7 @@
         // Clear text before transition
         if (textbox) textbox.style.display = 'none';
         textEl.textContent = '';
-        // For now, transition to door-open scene
+        // Transition to door-open scene
         await changeScene('door-open');
       } else {
         // Incorrect password
